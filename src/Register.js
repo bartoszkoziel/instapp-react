@@ -8,10 +8,15 @@ export default function Login() {
    const [lastName, setLastName] = useState('')
 
    const handleSubmit = async (e) => {
-      console.log("BANG")
+      e.preventDefault();
+
+      if(email === "" || password === "" || firstName === "" || lastName === "") {
+         alert("PLEASE FILL OUT THE FORM!")
+         return
+      }
 
       try {
-         const response = await fetch('http://localhost:3001/api/user/register', {
+         const response = await fetch('http://localhost:3000/api/user/register', {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
@@ -25,13 +30,13 @@ export default function Login() {
          });
 
          if (response.ok) {
-            alert("ACCOUNT HAS BEEN CREATED")
+            // Login successful
+            alert("ACCOUNT HAS BEEN CREATED" + await response.text())
             console.log('Login successful');
-            console.log(await response.text())
-            // window.location.pathname = "/login"
+            window.location.pathname = "/login"
          } else {
             // Login failed, handle the error
-            console.error('Login failed');
+            alert(await response.text())
             console.log(response)
          }
       } catch (error) {
@@ -83,7 +88,7 @@ export default function Login() {
                   required
                />
             </div>
-            <div onClick={handleSubmit}>REGISTER</div>
+            <button className="button" onClick={handleSubmit}>REGISTER</button>
          </form>
          <a href="/login">LOGIN</a>
       </div>

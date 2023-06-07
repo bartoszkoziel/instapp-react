@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 export default function Login() {
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
 
    const handleSubmit = async (e) => {
-      e.preventDefault();
+      e.preventDefault()
 
       try {
          const response = await fetch('http://localhost:3000/api/user/login', {
@@ -13,18 +13,29 @@ export default function Login() {
             headers: {
                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
-         });
+            body: JSON.stringify({
+               email: email,
+               password: password
+            }),
+         })
 
          if (response.ok) {
             // Login successful, perform necessary actions
-            console.log('Login successful');
+            let obj = await response.json()
+            console.log("ADDED TOKEN TO LOCAL STORAGE!", obj.token)
+            localStorage.setItem('instapptoken', obj.token)
+
+            console.log("TEST < DELETE ::", localStorage.getItem("instapptoken"))
+
+            alert("WELCOME TO INSTAPP!")
+            window.location.pathname = "/"
+            console.log('Login successful')
          } else {
             // Login failed, handle the error
-            console.error('Login failed');
+            alert(await response.text())
          }
       } catch (error) {
-         console.error('An error occurred', error);
+         console.error('An error occurred', error)
       }
    }
 
@@ -32,7 +43,7 @@ export default function Login() {
       <div className='container'>
          <img className='welcomeImg' src={require('./welcomePhoto.jpeg')} />
          <h1>Login</h1>
-         <form onSubmit={handleSubmit}>
+         <form>
             <div>
                <input
                   type="email"
@@ -51,7 +62,7 @@ export default function Login() {
                   required
                />
             </div>
-            <button type="submit">Login</button>
+            <button onClick={handleSubmit} type="submit">Login</button>
             <a href="/register">CREATE AN ACCOUNT</a>
          </form>
       </div>
