@@ -1,7 +1,9 @@
+import { render } from '@testing-library/react'
 import React, { useEffect, useState } from 'react'
 
 export default function Home() {
 
+   const [mode, setMode] = useState('view')
    const [userData, setUserData] = useState(JSON.stringify({
       firstName: "",
       lastName: "",
@@ -46,12 +48,33 @@ export default function Home() {
       window.location.pathname = "/login"
    }
 
+   const myReadOnly = (prop) => {
+      if (mode == "view") return prop
+   }
+
+   const changeMode = () => {
+      if (mode == "view") {
+         setMode("edit")
+      }
+      else {
+         setMode("view")
+      }
+   }
+
    return (
-      <main>
-         <p>Imie <input type="text" value={userData.firstName} /> </p>
-         <p>Nazwisko <input type="text" value={userData.lastName} /> </p>
-         <p>Email <input type="text" value={userData.email} /> </p>
-         <img src={userData.pfpUrl} alt={userData.pfpUrl} />
-      </main>
+      <>
+         <main className="profile" >
+            <img src={userData.pfpUrl} alt={userData.pfpUrl} />
+            <div className="profile-data">
+               <p>Imie <input className="float-right" type="text" value={myReadOnly(userData.firstName)} /> </p>
+               <p>Nazwisko <input className="float-right" type="text" value={myReadOnly(userData.lastName)} /> </p>
+               <p>Email <input className="float-right" type="text" value={myReadOnly(userData.email)} /> </p>
+            </div>
+         </main>
+         <div className='center'>
+            <button className="button" onClick={changeMode}>CHANGE PROFILE</button>
+            { <button className="button" >SEND</button> }
+         </div>
+      </>
    )
 }

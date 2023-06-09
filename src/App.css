@@ -31,6 +31,7 @@ form > * {
 }
 
 .button {
+   border-radius: 15px;
    background-color: #4caf50;
    border: none;
    color: white;
@@ -42,7 +43,8 @@ form > * {
 }
 
 .button:hover {
-   background-color: #4caf4fb9;
+   background-color: #4caf4f96;
+   cursor: pointer;
 }
 
 h1 {
@@ -76,4 +78,28 @@ li:hover {
    background-color: #f71735;
    color: #41ead4;
    cursor: pointer;
+}
+
+.profile-data{
+   padding: 1em;
+}
+
+.profile {
+   margin-left: auto;
+   margin-right: auto;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   padding: 2em;
+}
+
+.float-right{
+   float:right;
+   margin-left: 10px;
+}
+
+.center {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
 }
