@@ -19,7 +19,7 @@ export default function Navbar() {
             <li onClick={() => setSubPage(<Home />)}>Home</li>
             <li onClick={() => setSubPage(<AddPost />)}>Add Post</li>
             <li onClick={() => setSubPage(<MyPosts />)}>My Posts</li>
-            <li onClick={() => setSubPage(<MyProfile />)}>My Profile</li>
+            <li onClick={() => setSubPage(<MyProfile setSubPage={setSubPage} />)}>My Profile</li>
             <li onClick={logout}>Logout</li>
          </ul>
          {subPage}

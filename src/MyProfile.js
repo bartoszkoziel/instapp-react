@@ -1,9 +1,10 @@
-import { render } from '@testing-library/react'
 import React, { useEffect, useState } from 'react'
+import ChangeProfile from './ChangeProfile'
 
-export default function Home() {
+export default function MyProfile(props) {
 
-   const [mode, setMode] = useState('view')
+   console.log(props)
+
    const [userData, setUserData] = useState(JSON.stringify({
       firstName: "",
       lastName: "",
@@ -12,6 +13,7 @@ export default function Home() {
    }))
 
    const getProfileData = async () => {
+      console.log("BANG BANG!")
       try {
          let bearer = 'Bearer ' + localStorage.getItem("instapptoken")
          const headers = { 'Content-Type': 'application/json', 'Authorization': bearer, }
@@ -28,7 +30,7 @@ export default function Home() {
                firstName: data.firstName,
                lastName: data.lastName,
                email: data.email,
-               pfpUrl: "http://localhost:3000/api/profile/pfp/" + data.id
+               pfpUrl: "http://localhost:3000/api/profile/pfp/" + data.id + `?timestamp=${ Date.now() }`
             })
          } else {
             alert(await response.text())
@@ -40,6 +42,7 @@ export default function Home() {
    }
 
    useEffect(() => {
+      console.log("---- USE EFFECT!!! ----")
       getProfileData()
    }, [])
 
@@ -48,32 +51,32 @@ export default function Home() {
       window.location.pathname = "/login"
    }
 
-   const myReadOnly = (prop) => {
-      if (mode == "view") return prop
-   }
-
-   const changeMode = () => {
-      if (mode == "view") {
-         setMode("edit")
-      }
-      else {
-         setMode("view")
-      }
+   const update = () => {
+      console.log("---UPDATE EXECUTED---")
+      setUserData(JSON.stringify({
+         firstName: "",
+         lastName: "",
+         email: "",
+         pfpUrl: ""
+      }))
    }
 
    return (
       <>
          <main className="profile" >
-            <img src={userData.pfpUrl} alt={userData.pfpUrl} />
+            <img height={180} width={180} src={userData.pfpUrl} alt={userData.pfpUrl} />
             <div className="profile-data">
-               <p>Imie <input className="float-right" type="text" value={myReadOnly(userData.firstName)} /> </p>
-               <p>Nazwisko <input className="float-right" type="text" value={myReadOnly(userData.lastName)} /> </p>
-               <p>Email <input className="float-right" type="text" value={myReadOnly(userData.email)} /> </p>
+               <p>Imie <input readOnly className="float-right" type="text" value={userData.firstName} /> </p>
+               <p>Nazwisko <input readOnly className="float-right" type="text" value={userData.lastName} /> </p>
+               <p>Email <input readOnly className="float-right" type="text" value={userData.email} /> </p>
             </div>
          </main>
          <div className='center'>
-            <button className="button" onClick={changeMode}>CHANGE PROFILE</button>
-            { <button className="button" >SEND</button> }
+            <button
+               onClick={() => props.setSubPage(<ChangeProfile changeMode={props.setSubPage} updateProfile={update} />)}
+               className="button" >
+               CHANGE PROFILE
+            </button>
          </div>
       </>
    )
