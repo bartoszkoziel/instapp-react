@@ -25,8 +25,6 @@ export default function Login() {
             console.log("ADDED TOKEN TO LOCAL STORAGE!", obj.token)
             localStorage.setItem('instapptoken', obj.token)
 
-            console.log("TEST < DELETE ::", localStorage.getItem("instapptoken"))
-
             alert("WELCOME TO INSTAPP!")
             window.location.pathname = "/"
             console.log('Login successful')

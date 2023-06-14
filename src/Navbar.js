@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import Home from './Home';
 import AddPost from './AddPost'
-import MyPosts from './MyPosts'
+import Albums from './Albums'
 import MyProfile from './MyProfile'
 
 export default function Navbar() {
 
-   const [subPage, setSubPage] = useState(<Home />);
+   const [subPage, setSubPage] = useState(<Home />)
 
    const logout = () => {
       localStorage.removeItem("instapptoken")
@@ -18,7 +18,7 @@ export default function Navbar() {
          <ul className='navbar1'>
             <li onClick={() => setSubPage(<Home />)}>Home</li>
             <li onClick={() => setSubPage(<AddPost />)}>Add Post</li>
-            <li onClick={() => setSubPage(<MyPosts />)}>My Posts</li>
+            <li onClick={() => setSubPage(<Albums />)}>Albums</li>
             <li onClick={() => setSubPage(<MyProfile setSubPage={setSubPage} />)}>My Profile</li>
             <li onClick={logout}>Logout</li>
          </ul>

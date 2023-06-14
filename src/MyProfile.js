@@ -3,8 +3,6 @@ import ChangeProfile from './ChangeProfile'
 
 export default function MyProfile(props) {
 
-   console.log(props)
-
    const [userData, setUserData] = useState(JSON.stringify({
       firstName: "",
       lastName: "",
@@ -13,7 +11,6 @@ export default function MyProfile(props) {
    }))
 
    const getProfileData = async () => {
-      console.log("BANG BANG!")
       try {
          let bearer = 'Bearer ' + localStorage.getItem("instapptoken")
          const headers = { 'Content-Type': 'application/json', 'Authorization': bearer, }
@@ -24,7 +21,6 @@ export default function MyProfile(props) {
 
          if (response.ok) {
             let data = await response.json()
-            console.log(data)
 
             setUserData({
                firstName: data.firstName,
@@ -42,7 +38,6 @@ export default function MyProfile(props) {
    }
 
    useEffect(() => {
-      console.log("---- USE EFFECT!!! ----")
       getProfileData()
    }, [])
 
@@ -52,7 +47,6 @@ export default function MyProfile(props) {
    }
 
    const update = () => {
-      console.log("---UPDATE EXECUTED---")
       setUserData(JSON.stringify({
          firstName: "",
          lastName: "",
@@ -66,9 +60,9 @@ export default function MyProfile(props) {
          <main className="profile" >
             <img height={180} width={180} src={userData.pfpUrl} alt={userData.pfpUrl} />
             <div className="profile-data">
-               <p>Imie <input readOnly className="float-right" type="text" value={userData.firstName} /> </p>
-               <p>Nazwisko <input readOnly className="float-right" type="text" value={userData.lastName} /> </p>
-               <p>Email <input readOnly className="float-right" type="text" value={userData.email} /> </p>
+               <p>Imie:  <span className="float-right">{userData.firstName}</span> </p>
+               <p>Nazwisko: <span className="float-right">{userData.lastName}</span> </p>
+               <p>Email: <span className="float-right">{userData.email}</span> </p>
             </div>
          </main>
          <div className='center'>
